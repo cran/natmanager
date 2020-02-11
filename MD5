@@ -1,0 +1,11 @@
+320a20ff2a26e5e4e05e20db1e6612a4 *DESCRIPTION
+6370016ccdb3f871214e06268cb9cd4e *NAMESPACE
+668c4926b1ad0aca0424170d2642504b *R/install.R
+8c5a6d3332e8e4e04171a87eaac11469 *R/utils.R
+5e3ba8cdd3a5af2c32ce53b6e73720c9 *R/zzz.R
+01b747d99a81c32255343cb1d90fe065 *README.md
+fafa6357590c1e97a55717cabd0a3cf9 *inst/WORDLIST
+673dd0fab92666747fdc1df27018edd7 *man/install.Rd
+d0536877ea9751a68d054839c78f5d01 *man/list_repo.Rd
+a8074a32d3a93a0de90033a247042a66 *tests/testthat.R
+2897f269dd65db8008f2b6d09cfca8f8 *tests/testthat/test-install.R
