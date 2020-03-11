@@ -7,9 +7,12 @@ options(repos = r)
 test_that("installation works", {
 
   #Run tests on travis only if the GITHUB_PAT is set
-  if (!nzchar(Sys.getenv('GITHUB_PAT'))) {
-    skip("Skipping as Github PAT is not set")
-  }
+  #if (!nzchar(Sys.getenv('GITHUB_PAT'))) {
+  #   skip("Skipping as Github PAT is not set")
+  #}
+
+
+
 
   # This test requires installation and hence only run on travis..
   skip_on_cran()
@@ -19,14 +22,22 @@ test_that("installation works", {
   }
 
 
-  pkgname <- 'nat.devtools'
+  pkgname <- 'nat.templatebrains'
 
   if (requireNamespace(pkgname, lib.loc = liblocs, quietly=TRUE)){
     remove.packages(pkgname, lib = liblocs)
   }
 
-  natmanager::install(pkgname, dependencies = TRUE, lib = liblocs)
+  #unset the pat, as the core installation can run without it..
+  old=Sys.getenv("GITHUB_PAT")
+  Sys.setenv("GITHUB_PAT" = '')
+
+  natmanager::install(collection = 'core', dependencies = TRUE,
+                      upgrade.dependencies = TRUE, lib = liblocs)
   expect_equal(requireNamespace(pkgname, lib.loc = liblocs, quietly=TRUE),TRUE)
+
+  #Set the pat again..
+  Sys.setenv("GITHUB_PAT" = old)
 
 })
 

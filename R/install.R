@@ -1,21 +1,74 @@
-#' Install packages inside the natverse repository.
+#' Install natverse packages from GitHub
 #'
-#' This will check to see if the GITHUB_PAT is set and will provide instructions to the user to set it.
-#' Further if the GITHUB_PAT is set, it will start installing the dependencies of the `natverse` package.
-#' @param pkgname Package name inside the `natverse` repository.
-#' @param dependencies Which dependencies you want to install see \code{\link[remotes]{install_github}}.
+#' @description \code{install} allows you to install one of two collections of
+#'   nat packages
+#'
+#'   \itemize{
+#'
+#'   \item \code{core} a minimal install that can help users to get started with nat
+#'   and already solve many problems (the default)
+#'
+#'   \item \code{natverse} a powerful "batteries included" distribution with all
+#'   mature packages in the natverse.
+#'
+#'   }
+#'
+#'   Since the \code{natverse} option will install many packages from GitHub,
+#'   you need to have a GitHub account and personal access token (GITHUB_PAT).
+#'   Install will check to see if you have a \code{GITHUB_PAT} already and, if
+#'   not, walk you through the steps of setting one up.
+#'
+#' @param collection The collection of natverse packages that you would like to
+#'   install. The current options are \code{core}, the default, or
+#'   \code{natverse}. See Description for more information.
+#' @param dependencies Which dependencies you want to install see
+#'   \code{\link[remotes]{install_github}}.
 #' @param ... extra arguments to pass to \code{\link[remotes]{install_github}}.
 #' @importFrom utils install.packages
+#' @importFrom usethis ui_info
+#' @inheritParams selfupdate
 #' @export
 #' @examples
 #' \dontrun{
-#' library('natmanager')
-#' install('natverse')
+#' # install core packages to try out the core natverse
+#' natmanager::install('core')
+#'
+#' # Full "batteries included" installation with all packages
+#' natmanager::install('natverse')
 #' }
-install <- function(pkgname = 'natverse',dependencies=TRUE, ...) {
+install <- function(collection = c('core', 'natverse'), dependencies = TRUE,
+                    upgrade.dependencies='always', ...) {
 
-  if(!requireNamespace('remotes', quietly=TRUE)) utils::install.packages('remotes')
-  if(!requireNamespace('usethis', quietly=TRUE)) utils::install.packages('usethis')
-  remotes::install_github(paste0("natverse/",pkgname),auth_token = Sys.getenv('GITHUB_PAT'),
-                          dependencies=dependencies, ...)
+  collection=match.arg(collection)
+
+  pkgs <- if(collection=="core") {
+    c("nat", "nat.nblast", "nat.templatebrains")
+  } else {
+    "natverse"
+  }
+  repos = paste0("natverse/", pkgs)
+
+  # use personal PAT or bundled one if that fails
+  withr::local_envvar(c(GITHUB_PAT=check_pat(create = FALSE),
+                        R_REMOTES_NO_ERRORS_FROM_WARNINGS=TRUE))
+  # only use source packages if essential
+  withr::local_options(list(install.packages.compile.from.source='never'))
+  # withr::local_options(list(install.packages.check.source='no'))
+
+  # Update if necessary
+  smartselfupdate()
+
+  remotes::install_github(
+    repos,
+    dependencies = dependencies,
+    upgrade = upgrade.dependencies,
+    ...
+  )
+
+  if(collection=='core') {
+    ui_info("Load the core nat package with {ui_code('library(nat)')}")
+    ui_todo("To install the full natverse in future do {ui_code('natmanager::install(\"natverse\")')}")
+  } else {
+    ui_info("Load the full natverse with {ui_code('library(natverse)')}")
+  }
 }
