@@ -1,6 +1,6 @@
 Package: natmanager
 Title: Install the 'Natverse' Packages from Scratch
-Version: 0.4.0
+Version: 0.4.6
 Authors@R: c(
     person(given = "Sridhar",
            family = "Jagannathan",
@@ -26,12 +26,12 @@ Suggests: testthat (>= 2.1.0), knitr, rstudioapi
 Encoding: UTF-8
 Language: en-GB
 LazyData: true
-RoxygenNote: 7.0.2
+RoxygenNote: 7.1.0
 NeedsCompilation: no
-Packaged: 2020-03-11 11:27:45 UTC; sri
+Packaged: 2020-07-06 16:50:26 UTC; sri
 Author: Sridhar Jagannathan [aut, cre]
     (<https://orcid.org/0000-0002-2078-1145>),
   Gregory Jefferis [aut] (<https://orcid.org/0000-0002-0587-9355>)
 Maintainer: Sridhar Jagannathan <j.sridharrajan@gmail.com>
 Repository: CRAN
-Date/Publication: 2020-03-11 12:40:02 UTC
+Date/Publication: 2020-07-06 17:20:02 UTC

@@ -1,3 +1,33 @@
+# natmanager 0.4.6
+
+* provide options for installing non-natverse packages via `natmanager`. Bump up version
+  for preparation of package update on `CRAN`
+
+# natmanager 0.4.5
+
+* use new private `system_requirements_ok` function during install. Right now
+this only checks for xquartz on macosx but additional checks or suggestions may
+be added in future.
+
+# natmanager 0.4.4
+
+* use `R_REMOTES_STANDALONE` environment variable to try to prevent some Windows
+  installation issues. See https://github.com/r-lib/remotes#standalone-mode.
+
+# natmanager 0.4.3
+
+* Fix bug in `selfupdate()` recall on restart
+
+# natmanager 0.4.2
+
+* `selfupdate()` tweaks: restart `install()` process after session restart when
+  possible, don't stop after restart, `force` option.
+
+# natmanager 0.4.1
+
+* give `install()` the options to install specific packages rather than 
+  collections.
+
 # natmanager 0.4.0
 
 * use bundled PAT when nothing else available

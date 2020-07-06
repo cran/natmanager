@@ -4,7 +4,12 @@
 \alias{selfupdate}
 \title{Update the `natmanager` package itself.}
 \usage{
-selfupdate(source = c("GITHUB", "CRAN"), upgrade.dependencies = "always", ...)
+selfupdate(
+  source = c("GITHUB", "CRAN"),
+  upgrade.dependencies = "always",
+  force = FALSE,
+  ...
+)
 }
 \arguments{
 \item{source}{Location from which to obtain a newer version of natmanager.
@@ -15,8 +20,14 @@ package repository.}
 See the \code{upgrade} argument of \code{\link[remotes]{install_github}}
 for details. The default will go ahead and always do this is as necessary.}
 
+\item{force}{Force self update even if there doesn't seem to be an update
+(default \code{FALSE})}
+
 \item{...}{extra arguments to pass to \code{\link[remotes]{install_github}}
 or \code{\link[remotes]{install_cran}}.}
+}
+\value{
+Logical indicating whether an update was required (invisibly).
 }
 \description{
 Update the `natmanager` package itself.

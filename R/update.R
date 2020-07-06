@@ -8,6 +8,9 @@
 #' @param upgrade.dependencies Whether to install dependencies of natmanager.
 #'   See the \code{upgrade} argument of \code{\link[remotes]{install_github}}
 #'   for details. The default will go ahead and always do this is as necessary.
+#' @param force Force self update even if there doesn't seem to be an update
+#'   (default \code{FALSE})
+#' @return Logical indicating whether an update was required (invisibly).
 #' @importFrom utils browseURL packageVersion
 #' @export
 #' @seealso \code{\link{install}}
@@ -16,7 +19,7 @@
 #' natmanager::selfupdate()
 #' }
 selfupdate <- function(source = c('GITHUB', 'CRAN'),
-                       upgrade.dependencies='always', ...) {
+                       upgrade.dependencies='always', force=FALSE, ...) {
   source <- match.arg(source)
 
   oldVersion=utils::packageVersion('natmanager')
@@ -31,28 +34,46 @@ selfupdate <- function(source = c('GITHUB', 'CRAN'),
     remotes::install_cran('natmanager', ...)
   } else {
     remotes::install_github('natverse/natmanager',
-                            upgrade=upgrade.dependencies, ...)
+                            upgrade=upgrade.dependencies, force=force, ...)
   }
 
   newVersion=utils::packageVersion('natmanager')
 
-  if(newVersion>oldVersion) {
+  if(isTRUE(newVersion>oldVersion) || isTRUE(force)) {
     if(isTRUE(Sys.getenv("RSTUDIO")=="1")  &&
        isTRUE(requireNamespace('rstudioapi', quietly=TRUE))) {
-      res=utils::askYesNo("Can I restart R?")
-      if (isTRUE(res)) {
-        message("Thank you! You can run natmanager::install() after restarting!")
-        rstudioapi::restartSession()
-        stop("", call. = F)
+      canrestart=utils::askYesNo("Can I restart R?")
+      if (isTRUE(canrestart)) {
+        # check if selfupdate was called directly
+        toplevelcall=is.null(sys.call(-1))
+        topcall=""
+        if(!toplevelcall) {
+          # get the top level call
+          topcall=deparse(sys.calls()[[1]])
+          # add natmanager:: prefix so we can run it without loading package
+          topcall=sub("^install\\(", "natmanager::install(", topcall)
+          # clear topcall if it doesn't look like a plain install command
+          if(isFALSE(grepl("^natmanager::install", topcall))) topcall=""
+        }
+        if(nzchar(topcall)) {
+          message("Thank you! I will run ", topcall, " after restarting!")
+        } else {
+          message("Thank you! You can run natmanager::install() after restarting!")
+        }
+        rstudioapi::restartSession(command = topcall)
+        # I think we need to stop here to prevent callees from continuing to go
+        # about their business because the session restart does not stop R immediately
+        message("Waiting for restart ...")
       } else{
-        stop("OK! But you must restart R before running natmanager::install() again!",
-             call. = FALSE)
+        message("OK! But you must restart R before running natmanager::install() again!")
       }
     } else {
-      stop("You must restart R before running natmanager::install() again!",
-           call. = FALSE)
+      message("You must restart R before running natmanager::install() again!")
     }
+    # let callee know we had to update
+    invisible(TRUE)
   }
+  invisible(FALSE)
 }
 
 github_version <- function(repo='natverse/natmanager') {
@@ -79,7 +100,6 @@ smartselfupdate <- function(...) {
       " (recommended!)"),
       default = TRUE
     )
-    if (isTRUE(res))
-      selfupdate(...)
-  }
+    if (isTRUE(res)) selfupdate(...) else FALSE
+  } else FALSE
 }
