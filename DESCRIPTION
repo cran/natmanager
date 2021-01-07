@@ -1,6 +1,6 @@
 Package: natmanager
 Title: Install the 'Natverse' Packages from Scratch
-Version: 0.4.6
+Version: 0.4.7
 Authors@R: c(
     person(given = "Sridhar",
            family = "Jagannathan",
@@ -21,17 +21,17 @@ Description: Provides streamlined installation for packages from the 'natverse',
     'natverse' suite requires a 'GitHub' user account and personal access token
     'GITHUB_PAT'. 'natmanager' will help the end user set this up if necessary.
 License: GPL-3
-Imports: gh, utils, remotes, usethis, curl, withr
-Suggests: testthat (>= 2.1.0), knitr, rstudioapi
+Imports: gh, utils, remotes, usethis (>= 2.0.0), curl, withr
+Suggests: testthat (>= 2.1.0), knitr, mockery, rstudioapi
 Encoding: UTF-8
 Language: en-GB
 LazyData: true
-RoxygenNote: 7.1.0
+RoxygenNote: 7.1.1
 NeedsCompilation: no
-Packaged: 2020-07-06 16:50:26 UTC; sri
+Packaged: 2021-01-07 11:03:50 UTC; sri
 Author: Sridhar Jagannathan [aut, cre]
     (<https://orcid.org/0000-0002-2078-1145>),
   Gregory Jefferis [aut] (<https://orcid.org/0000-0002-0587-9355>)
 Maintainer: Sridhar Jagannathan <j.sridharrajan@gmail.com>
 Repository: CRAN
-Date/Publication: 2020-07-06 17:20:02 UTC
+Date/Publication: 2021-01-07 11:20:06 UTC

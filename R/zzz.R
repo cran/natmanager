@@ -26,7 +26,7 @@
 #' natmanager::check_pat(create=FALSE)
 #' }
 check_pat <- function(create=TRUE) {
-  pat=usethis::github_token()
+  pat=gh::gh_token()
   if (isFALSE(nzchar(pat))  && isFALSE(create)) {
     pat <- paste0("aa01baa46278a",
                   "ab50961f28153",
@@ -49,9 +49,9 @@ check_pat <- function(create=TRUE) {
       message("")
       res=ui_yeah("Would you like to create a GitHub PAT (Personal Access Token) now?")
       if(isTRUE(res)) {
-        usethis::browse_github_pat(description = "R:NATVERSE:GITHUB_PAT")
+        usethis::create_github_token(description = "R:NATVERSE:GITHUB_PAT")
       } else {
-        ui_todo("When ready, get your GitHub PAT with {ui_code('usethis::browse_github_token()')}")
+        ui_todo("When ready, get your GitHub PAT with {ui_code('usethis::create_github_token()')}")
       }
       ui_stop("No GITHUB_PAT set")
     } else {
