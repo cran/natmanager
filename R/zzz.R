@@ -26,11 +26,13 @@
 #' natmanager::check_pat(create=FALSE)
 #' }
 check_pat <- function(create=TRUE) {
-  pat=gh::gh_token()
+  pat=try(gh::gh_token(), silent = TRUE)
+  if(inherits(pat, 'try-error')) pat=""
   if (isFALSE(nzchar(pat))  && isFALSE(create)) {
-    pat <- paste0("aa01baa46278a",
-                  "ab50961f28153",
-                  "26e77befcf94c3")
+    pat <- paste0("ghp_",
+                  "k4WlWl4B3trj1",
+                  "iZqir2DKdzCm9",
+                  "7zyu2wCQge")
     ui_todo(c(
       "Using natmanager's default GitHub access token (PAT) to install packages.",
       "If you see error messages relating to GitHub rate limiting then use:",
@@ -38,13 +40,13 @@ check_pat <- function(create=TRUE) {
   } else if (isFALSE(nzchar(pat))) {
     if (interactive()) {
       ui_oops("You should have a GitHub account and PAT (Personal Access Token) to install the full natverse!")
-      ui_todo("Please read http://natverse.org/install/ for details!")
+      ui_todo("Please read https://natverse.org/install/ for details!")
       message("")
       res=ui_yeah("Shall I open the help page for you?")
       if(isTRUE(res)) {
-        browseURL("http://natverse.org/install")
+        browseURL("https://natverse.org/install")
       } else {
-        ui_todo("OK. But please do read http://natverse.org/install/ for details!")
+        ui_todo("OK. But please do read https://natverse.org/install/ for details!")
       }
       message("")
       res=ui_yeah("Would you like to create a GitHub PAT (Personal Access Token) now?")
@@ -56,7 +58,7 @@ check_pat <- function(create=TRUE) {
       ui_stop("No GITHUB_PAT set")
     } else {
       stop("Please run natmanager::install() in an interactive R session!\n",
-           "See http://natverse.org/install/ for details!")
+           "See https://natverse.org/install/ for details!")
     }
   } else{
     # nothing to do. Only put message if we were considering making a PAT

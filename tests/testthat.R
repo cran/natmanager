@@ -1,6 +1,6 @@
 library(testthat)
 library(natmanager)
 
-.libPaths( c( "/home/travis/R/Library" , .libPaths()))
+.libPaths( c( "/home/runner/work/_temp/Library" , .libPaths()))
 
 test_check("natmanager")

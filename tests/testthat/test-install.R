@@ -1,4 +1,4 @@
-liblocs <- "/home/travis/R/Library"
+liblocs <- "/home/runner/work/_temp/Library"
 
 r = getOption("repos")
 r["CRAN"] = "https://cloud.r-project.org"
@@ -6,19 +6,12 @@ options(repos = r)
 
 test_that("installation works", {
 
-  #Run tests on travis only if the GITHUB_PAT is set
-  #if (!nzchar(Sys.getenv('GITHUB_PAT'))) {
-  #   skip("Skipping as Github PAT is not set")
-  #}
 
-
-
-
-  # This test requires installation and hence only run on travis..
+  # This test requires installation and hence only run on github actions..
   skip_on_cran()
 
-  if (!nzchar(Sys.getenv('TRAVIS'))){
-    skip("Skipping as testcase will only be executed on travis")
+  if (!nzchar(Sys.getenv('GITHUB_ACTIONS'))){
+    skip("Skipping as testcase will only be executed on github actions")
   }
 
 
@@ -44,7 +37,7 @@ test_that("installation works", {
 
 test_that("list all natverse repos ", {
 
-  #Run tests on travis only if the GITHUB_PAT is set
+  #Run tests on github actions only if the GITHUB_PAT is set
   if (!nzchar(Sys.getenv('GITHUB_PAT'))) {
     skip("Skipping as Github PAT is not set")
   }
@@ -56,7 +49,7 @@ test_that("list all natverse repos ", {
 
 test_that("check for versions of R ", {
 
-  mockery::stub(system_requirements_ok, 'getRversion', package_version("4.0"))
+  mockery::stub(system_requirements_ok, 'getRversion', package_version("4.0.2"))
   expect_warning(system_requirements_ok(), regexp = NA)
 
   mockery::stub(system_requirements_ok, 'getRversion', package_version("3.5"))
