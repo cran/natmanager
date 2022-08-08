@@ -1,6 +1,6 @@
 Package: natmanager
 Title: Install the 'Natverse' Packages from Scratch
-Version: 0.4.8
+Version: 0.4.9
 Authors@R: c(
     person(given = "Sridhar",
            family = "Jagannathan",
@@ -22,15 +22,16 @@ Description: Provides streamlined installation for packages from the 'natverse',
     'GITHUB_PAT'. 'natmanager' will help the end user set this up if necessary.
 License: GPL-3
 Imports: gh (>= 1.2.1), utils, remotes, usethis (>= 2.0.0), curl, withr
-Suggests: testthat (>= 2.1.0), knitr, mockery, rstudioapi, covr
+Suggests: testthat (>= 2.1.0), knitr, mockery, rstudioapi, covr,
+        spelling
 Encoding: UTF-8
 Language: en-GB
 RoxygenNote: 7.1.1
 NeedsCompilation: no
-Packaged: 2021-05-30 10:39:00 UTC; sri
+Packaged: 2022-08-06 08:03:26 UTC; sri
 Author: Sridhar Jagannathan [aut, cre]
     (<https://orcid.org/0000-0002-2078-1145>),
   Gregory Jefferis [aut] (<https://orcid.org/0000-0002-0587-9355>)
 Maintainer: Sridhar Jagannathan <j.sridharrajan@gmail.com>
 Repository: CRAN
-Date/Publication: 2021-05-30 10:50:02 UTC
+Date/Publication: 2022-08-08 13:40:18 UTC
